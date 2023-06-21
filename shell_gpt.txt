@@ -1,0 +1,10 @@
+list saved chats ~ sgpt --list-chats 
+open in interactive chat ~ sgpt --repl <name_no>
+print saved chat ~ sgpt --show-chat <name/no>
+add items ~ nano $HOME/scripts/shell_gpt.txt
+delete saved chat ~ rm /tmp/chat_cache/ <name>
+open saved chat in editor mode ~ sgpt --chat <name_no> --editor
+open to get Shell commands ~ sgpt --adith "command_you _want"
+open chat in shell mode ~ sgpt --chat sh --adith "prompt"
+list role ~ sgpt --list-roles
+Show role ~ sgpt --show-role <name>
