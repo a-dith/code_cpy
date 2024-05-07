@@ -4,14 +4,15 @@ ffmpeg x265 enc simple ~ for f in *.*; do ffmpeg -i "${f}" -c:v libx265 -c:a cop
 ffmpeg x265 enc complex ~ for f in *.*; do ffprobe -v error -show_entries format=filename,duration,size -of default=noprint_wrappers=1 -sexagesimal "$f" && ffmpeg -hide_banner -loglevel panic -i "$f" -y -c:v libx265 -x265-params log-level=error -stats -c:a copy "${f%%.*} x265.mkv"; done
 ffprobe file complex ~ for f in *.*;do ffprobe -v error -show_entries format=filename,duration,size -of default=noprint_wrappers=1 -sexagesimal "${f}" | awk -F= '{ if ($1 == "size") { printf "Size: "; system("numfmt --to=iec-i --suffix=B --format=\"%f\" " $2) } else print $0 }' && ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1 "${f}"&& printf "\n" ; done
 ffprobe file simple ~ for f in *.*; do ffprobe -hide_banner -i "${f}" |& grep -e Input -e Stream ; done
-bash ~ #!/bin/bash \n set -e
+bash ~ printf '#!/bin/bash\n# Program for\n\n# Set the shell option to exit immediately if any command exits with a non-zero status\nset -e\n\n'
 rename pattern files ~ for f in *; do mv $f "${f%%.*}txt"; done
 Dmenu flags ~ dmenu -p clipboard -i -l 10 -nb black -nf white -sb dodgerblue -sf white -fn 'Monospace-12'
-add items ~ nano /home/e15/scripts/1.txt
+add items ~ nano $HOME/scripts/1.txt
 youtube link extractor ~ grep -E "^(http(s)?:\\\\/\\\\/)?((w){3}.)?youtu(be|.be)?(\\\\.com)?\\\\/.+" 
-awk print ~ awk -F'.' '{print $2}'
-extract epub from folders ~ find . -name '*.epub'>epub.txt && cat epub.txt | xargs -I {} -n 1 cp {} ./ && rm epub.txt 
-lncrawl ~ lncrawl --format 'epub' --single --all
+awk print ~ awk -F'=' '{print $2}'
+extract epub from folders ~ pushd $HOME/Lightnovels/; find . -name '*.epub'>epub.txt && cat epub.txt | xargs -I {} -n 1 cp {} ./ && rm epub.txt 
+lncrawl ~ pushd $HOME/ ;lncrawl --format 'epub' --single --all
+lncrawl url ~ pushd $HOME/ ;lncrawl --format 'epub' --single --all --suppress -s <URL>
 show free space of disk ~ df -h | grep -v -E 'loop|0%|1%' 
 youtube comment downloadr ~ yt-dlp --skip-download --write-comments --extractor-args "youtube:comment_sort=top" <$URL>
 spider print ~ awk '/^--/ {print $3}' | sort | uniq 
@@ -25,4 +26,69 @@ file rename Adding BLA at 13th place (-Ei) ~ qmv -f do -e 'sed -E "s/\%13c/BLA/g
 file rename Add .docx at 13th place (-Ei) ~ qmv -f do -e 'sed -E "s/\%13c/.docx/g"'
 file rename Removing everything after 27 char ~ qmv -f do -e 'sed -E "s/^(.{27}).*/\1/g"' *.txt
 log error ~  2>&1 |tee error
-
+scrcpy USB no audio ~ scrcpy --no-audio -Swd
+scrcpy wifi no audio ~ scrcpy -Sw --no-audio --tcpip=192.168.18.10:42051
+nano new terminal ~ xterm -fa Monospace -fs 11 -bg black -fg white -e nano <file>
+keyboard key press ~ xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-3s %s\n", $8, $7 }'
+keyboard and mouse input ~ sudo libinput debug-events
+visually aligned columns -s custom delimiter ~ column -t -s $'\t'
+reset notifications and restart notifyd ~ pkill notifyd && /usr/lib/xfce4/notifyd/xfce4-notifyd & 
+print icons ~ while IFS= read -r line; do trimmed_line=$(echo "$line" | awk '{$1=$1};1'); notify-send "$trimmed_line" -i $trimmed_line ;sleep 3;done <$HOME/2.txt
+sequence ~ for i in $(seq 1 9); do echo "filename$i";done 
+print newline before output ~ awk 'NR==1 {printf "\n"} {print}'
+paste from clipboard ~ xclip -o -sel clip
+reading lines from a file into an array(after initialising) ~ mapfile -t urls_waiting < /tmp/waiting_urls.txt
+keyboard type ~ xdotool type "Hello"
+paste clipboard to file ~ xclip -o -sel clip|awk 'NR==EF {printf "\n"} {print}'
+url extraction ~ grep -iEo 'href="[^"]+'|sed 's/.*href="//'
+googler open ~ googler -w pagalnew.com/album "Search" --url-handler firefox $argv
+sxhkd shortcut ~ awk '/^[a-z]/ && last {print $0,"\t",last} {last=""} /^#/{last=$0}' $HOME/.config/sxhkd/sxhkdrc| column -t -s $'\t' 
+sxhkd open ~ nano $HOME/.config/sxhkd/sxhkdrc
+convert jpg to pdf ~ convert *.jpg -auto-orient pictures.pdf
+manga ~ mangodl -D "name" -o pdf  
+Drive download ~ while read line ;do yt-dlp --output "%(title)s" $line ; done <$HOME/Downloads/manhwa/knightandday.txt
+infinite while loop ~ while true ;do $what_you_want_to_do ;done
+open images in current folder ~ sxiv -rt .
+sxiv shortcut ~ awk '/^"/ && last {print $0,"\t",last} {last=""} /^#/{last=$0}' $HOME/.config/sxiv/exec/key-handler|tr -d \" |tr -d \)|sed 's/C-/Ctrl+/'| column -t -s $'\t'
+sxiv open ~ nano $HOME/.config/sxiv/exec/key-handler
+rerun for permanent changes ~ !!:s/-E/-Ei/
+Substitute space with \space ~ sed 's/ /\\ /g'
+Substitute nextline to space ~ tr '\n' ' '
+difference (compare) between 2 files ~ diff -y -W 200 <2_files>
+googler file input ~ googler -C hello world < input > output.txt
+googler sanitise output ~ cat output.txt |grep -a1 googler|sed 's/^ *//'|sed 's/^googler (? for help):  1. */#/'| awk '/^[a-z]/ && last {print $0,"\t",last} {last=""} /^#/{last=$0}'
+add newline to all lines in a file ~ sed -i 's/$/\n/' your_file.txt
+read line by line ~ while IFS= read -r f; do firefox "$f" ; done < urls.txt
+file print xargs ~ xargs -n 1 wget -P downloaded_files < img.txt
+open mozilla bookmark in private window ~ firefox --private-window "$(awk -F' #' '{print $2 " # " $1}' $HOME/moz_bookmark.txt | dmenu -p Bookmark_open -i -l 10 -nb black -nf white -sb dodgerblue -sf white -fn 'Monospace-12' | awk -F' #' '{print $2}')"
+add trailing " ~ sed 's/$/"/'
+print concatenate alternate lines together ~ awk  'NR % 2 == 1 { first_part = $1 } NR % 2 == 0 { print first_part,$0 }'
+TTS ~ $HOME/piper/piper --model $HOME/piper/en_US-lessac-medium.onnx --output_file /tmp/tts.wav && mpv /tmp/tts.wav
+loop TTS ~ for f in *.txt ; do cat $f| $HOME/piper/piper --model $HOME/piper/en_US-lessac-medium.onnx --output_file "${f%%.*}.wav";done
+Replace multiple spaces with one ~ tr -s " "
+youtube description ~ yt-dlp --get-description $(xclip -o -sel clip)
+googler download ~ googler -w pagalnew.com/ " search" --url-handler $HOME/Downloads/songs/pagal.sh $argv
+remove blank line ~ sed '/^$/d'
+remove any number followed by a period ~ sed -i 's/[0-9]\+\.//g'
+remove spaces at the start and end of lines ~ sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
+mpv play ~ for f in *.wav ;do mpv --speed=1.8 $f ; done
+split file with # in the starting position ~ awk -v n=10000 '/^#/{n++}{print>n ".md"}' file.txt
+convert epub to txt ~ ebook-convert mybook.epub mybook.txt
+remove first 42 lines of a file add -i to edit the file ~ sed 1,42d file.txt
+play all files in folder ~ for f in *.wav ;do mpv --speed=1.9 $f ; done
+extract words that contain non-word characters (i.e., anything that is not a letter, digit, or underscore) between two consecutive spaces ~ grep -oP '(?<=\s)[^\s]*[^\w\s][^\s]*(?=\s)'  | sed 's/\([[:alnum:]]\)[.]\([[:space:]]\|$\)/\1\2/g' | grep -vE ',|"|'\''' | grep -oP '[^\s]*[^\w\s][^\s]' |sort|uniq
+loop mpv ~ for f in *.wav ;do mpv --speed=1.6 $f ; done
+image qualitite ~ for i in *.png ; do input_file="$i"; name="${input_file%.jpg}"; for f in $(seq 25 5 90); do convert "$input_file" -quality "$f" "${name}_${f}.jpg"; done ;done 
+dirty ntfs ~ sudo fdisk -l
+dirty ntfs2 ~ sudo ntfsfix -d /dev/sda1
+youtube thumbnail download ~ yt-dlp --skip-download --write-thumbnail --convert-thumbnails jpg <url_or-a_file_name>
+extract everything in [] ~ grep -oP '\[.*\]' | awk -F '[][]' '{print $2}'
+paetron download ~ yt-dlp -w --no-mtime -f 2493
+leading and trailing " ~ sed 's/$/"/'|sed 's/^/"/'
+sort uniq ~ sort|uniq
+remove starting digit with . or period ~ sed '/^[0-9]\+\./d'
+convert webp ~ for f in *.webp; do convert $f "${f%%.*}.jpg"; done
+for loop variable ~ "${f%%.*}.jpg"
+find command ~ find . -type f -iname "*.svg"
+remove astrix ~ sed 's/\*//g'
+pdf to jpg ~ pdftoppm -jpeg -r 300 input.pdf output.jpg
