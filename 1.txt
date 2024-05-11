@@ -7,7 +7,7 @@ ffprobe file simple ~ for f in *.*; do ffprobe -hide_banner -i "${f}" |& grep -e
 bash ~ printf '#!/bin/bash\n# Program for\n\n# Set the shell option to exit immediately if any command exits with a non-zero status\nset -e\n\n'
 rename pattern files ~ for f in *; do mv $f "${f%%.*}txt"; done
 Dmenu flags ~ dmenu -p clipboard -i -l 10 -nb black -nf white -sb dodgerblue -sf white -fn 'Monospace-12'
-add items ~ nano $HOME/scripts/1.txt
+add items ~ nano $HOME/repo/code_cpy/1.txt
 youtube link extractor ~ grep -E "^(http(s)?:\\\\/\\\\/)?((w){3}.)?youtu(be|.be)?(\\\\.com)?\\\\/.+" 
 awk print ~ awk -F'=' '{print $2}'
 extract epub from folders ~ pushd $HOME/Lightnovels/; find . -name '*.epub'>epub.txt && cat epub.txt | xargs -I {} -n 1 cp {} ./ && rm epub.txt 
@@ -92,3 +92,4 @@ for loop variable ~ "${f%%.*}.jpg"
 find command ~ find . -type f -iname "*.svg"
 remove astrix ~ sed 's/\*//g'
 pdf to jpg ~ pdftoppm -jpeg -r 300 input.pdf output.jpg
+battery percentage ~ upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep percentage
