@@ -5,7 +5,7 @@ ffmpeg x265 enc complex ~ for f in *.*; do ffprobe -v error -show_entries format
 ffprobe file complex ~ for f in *.*;do ffprobe -v error -show_entries format=filename,duration,size -of default=noprint_wrappers=1 -sexagesimal "${f}" | awk -F= '{ if ($1 == "size") { printf "Size: "; system("numfmt --to=iec-i --suffix=B --format=\"%f\" " $2) } else print $0 }' && ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1 "${f}"&& printf "\n" ; done
 ffprobe file simple ~ for f in *.*; do ffprobe -hide_banner -i "${f}" |& grep -e Input -e Stream ; done
 bash ~ printf '#!/bin/bash\n# Program for\n\n# Set the shell option to exit immediately if any command exits with a non-zero status\nset -e\n\n'
-rename pattern files ~ for f in *; do mv $f "${f%%.*}txt"; done
+rename pattern files ~ for f in *; do mv "$f" "${f%%.*}txt"; done
 Dmenu flags ~ dmenu -p clipboard -i -l 10 -nb black -nf white -sb dodgerblue -sf white -fn 'Monospace-12'
 add items ~ nano $HOME/repo/code_cpy/1.txt
 youtube link extractor ~ grep -E "^(http(s)?:\\\\/\\\\/)?((w){3}.)?youtu(be|.be)?(\\\\.com)?\\\\/.+" 
@@ -64,7 +64,7 @@ open mozilla bookmark in private window ~ firefox --private-window "$(awk -F' #'
 add trailing " ~ sed 's/$/"/'
 print concatenate alternate lines together ~ awk  'NR % 2 == 1 { first_part = $1 } NR % 2 == 0 { print first_part,$0 }'
 TTS ~ $HOME/piper/piper --model $HOME/piper/en_US-lessac-medium.onnx --output_file /tmp/tts.wav && mpv /tmp/tts.wav
-loop TTS ~ for f in *.txt ; do cat $f| $HOME/piper/piper --model $HOME/piper/en_US-lessac-medium.onnx --output_file "${f%%.*}.wav";done
+loop TTS ~ for f in *.txt ; do cat "$f"| $HOME/piper/piper --model $HOME/piper/en_US-lessac-medium.onnx --output_file "${f%%.*}.wav";done
 Replace multiple spaces with one ~ tr -s " "
 youtube description ~ yt-dlp --get-description $(xclip -o -sel clip)
 googler download ~ googler -w pagalnew.com/ " search" --url-handler $HOME/Downloads/songs/pagal.sh $argv
@@ -76,7 +76,7 @@ convert epub to txt ~ ebook-convert mybook.epub mybook.txt
 remove first 42 lines of a file add -i to edit the file ~ sed 1,42d file.txt
 play all files in folder ~ for f in *.wav ;do mpv --speed=1.9 "$f" ; done
 extract words that contain non-word characters (i.e., anything that is not a letter, digit, or underscore) between two consecutive spaces ~ grep -oP '(?<=\s)[^\s]*[^\w\s][^\s]*(?=\s)'  | sed 's/\([[:alnum:]]\)[.]\([[:space:]]\|$\)/\1\2/g' | grep -vE ',|"|'\''' | grep -oP '[^\s]*[^\w\s][^\s]' |sort|uniq
-loop mpv ~ for f in *.wav ;do mpv --speed=1.6 $f ; done
+loop mpv ~ for f in *.wav ;do mpv --speed=1.6 "$f" ; done
 image qualitite ~ for i in *.png ; do input_file="$i"; name="${input_file%.jpg}"; for f in $(seq 25 5 90); do convert "$input_file" -quality "$f" "${name}_${f}.jpg"; done ;done 
 dirty ntfs ~ sudo fdisk -l
 dirty ntfs2 ~ sudo ntfsfix -d /dev/sda1
@@ -86,7 +86,7 @@ paetron download ~ yt-dlp -w --no-mtime -f 2493
 leading and trailing " ~ sed 's/$/"/'|sed 's/^/"/'
 sort uniq ~ sort|uniq
 remove starting digit with . or period ~ sed '/^[0-9]\+\./d'
-convert webp ~ for f in *.webp; do convert $f "${f%%.*}.jpg"; done
+convert webp ~ for f in *.webp; do convert "$f" "${f%%.*}.jpg"; done
 for loop variable ~ "${f%%.*}.jpg"
 find command ~ find . -type f -iname "*.svg"
 remove astrix ~ sed 's/\*//g'
