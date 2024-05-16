@@ -16,6 +16,7 @@ To use this script, run the following command:
 This script requires the following dependencies:
 
 - `dmenu`: A dynamic menu for X11.
+- `rofi`: An alternate dynamic menu.
 - `awk`: A text processing tool for extracting fields from text files.
 - `sed`: A stream editor for modifying text files.
 - `xclip`: A command-line interface to the X11 clipboard.

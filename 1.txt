@@ -71,11 +71,10 @@ googler download ~ googler -w pagalnew.com/ " search" --url-handler $HOME/Downlo
 remove blank line ~ sed '/^$/d'
 remove any number followed by a period ~ sed -i 's/[0-9]\+\.//g'
 remove spaces at the start and end of lines ~ sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
-mpv play ~ for f in *.wav ;do mpv --speed=1.8 $f ; done
 split file with # in the starting position ~ awk -v n=10000 '/^#/{n++}{print>n ".md"}' file.txt
 convert epub to txt ~ ebook-convert mybook.epub mybook.txt
 remove first 42 lines of a file add -i to edit the file ~ sed 1,42d file.txt
-play all files in folder ~ for f in *.wav ;do mpv --speed=1.9 $f ; done
+play all files in folder ~ for f in *.wav ;do mpv --speed=1.9 "$f" ; done
 extract words that contain non-word characters (i.e., anything that is not a letter, digit, or underscore) between two consecutive spaces ~ grep -oP '(?<=\s)[^\s]*[^\w\s][^\s]*(?=\s)'  | sed 's/\([[:alnum:]]\)[.]\([[:space:]]\|$\)/\1\2/g' | grep -vE ',|"|'\''' | grep -oP '[^\s]*[^\w\s][^\s]' |sort|uniq
 loop mpv ~ for f in *.wav ;do mpv --speed=1.6 $f ; done
 image qualitite ~ for i in *.png ; do input_file="$i"; name="${input_file%.jpg}"; for f in $(seq 25 5 90); do convert "$input_file" -quality "$f" "${name}_${f}.jpg"; done ;done 
