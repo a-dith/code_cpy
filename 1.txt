@@ -92,3 +92,4 @@ find command ~ find . -type f -iname "*.svg"
 remove astrix ~ sed 's/\*//g'
 pdf to jpg ~ pdftoppm -jpeg -r 300 input.pdf output.jpg
 battery percentage ~ upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep percentage
+github sshkey add ~ ssh-add ~/.ssh/github_pri
